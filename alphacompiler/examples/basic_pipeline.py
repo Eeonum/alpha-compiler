@@ -16,7 +16,8 @@ def str2dt(datestr):
     return pd.to_datetime(datestr, utc=True)
 
 # constants
-BUNDLE = 'crsp'
+# BUNDLE = 'crsp'
+BUNDLE = 'sep'
 data_dates = ('2015-01-06', '2015-01-30')
 backtest_dates = ('2015-01-06', '2015-01-30')
 pipeline_data_dates = (pd.to_datetime(data_dates[0], utc=True), pd.to_datetime(data_dates[1], utc=True))
