@@ -22,6 +22,12 @@ Remark: we believe alpha-compiler is compatible with any python version and any 
 ## **Installation Instruction**
 
 1. Install quandl as it is the main library for alpha-compiler to fetch the fundamentals data from *[Sharadar Core US Equities Bundle](https://data.nasdaq.com/databases/SFA/data)*
-```$pip install quandl```
+first ```$pip install --upgrade pip``` and then ```$pip install quandl```
 
 2. To load and parse the fundamentals data, we have two ways:
+    * we can manually download the data, i.e. SHARADAR/SF1 and SHARADAR/TICKERS (which is faster than loading them using quandl API), at [data.nasdaq.com](https://data.nasdaq.com/databases/SFA/usage/export). 
+      * after the downloads, move both data files to ```~/.zipline/data-for-alpha-compiler``` (I assume that you have had zipline installed in your machine once which auto created .zipline at the root directory)
+        * if you don't have the directory yet, then ```$cd ~/.zipline``` and then ```$mkdir data-for-alpha-compiler```.
+        * 
+    * or, we can download the data using quandl library, which we've installed at step 1. 
+      * will explain in later section.
