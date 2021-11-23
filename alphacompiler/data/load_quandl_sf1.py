@@ -219,6 +219,8 @@ if __name__ == '__main__':
     num_tickers = num_tkrs_in_bundle(BUNDLE_NAME)
     print('number of tickers: ', num_tickers)
 
+    # Uncomment this next line if you want to load the data using quandl api, and comment all_tickers_for_bundle_from_dump
+    # all_tickers_for_bundle_from_api(fields, dimensions, 'sep')
     all_tickers_for_bundle_from_dump(fields, dimensions, 'sep')  # downloads the data to /raw
     fields_dimensions = ['{}_{}'.format(i, j) for i, j in zip(fields, dimensions)]
     pack_sparse_data(num_tickers + 1,  # number of tickers in buldle + 1
