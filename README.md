@@ -42,7 +42,7 @@ first ```$pip install --upgrade pip``` and then ```$pip install quandl```
    3. We will create a empty folder to contain the raw fundamentals data files.
       1. ```mkdir alphacompiler/data/raw```
    4. Finally, you can run ```$python alphacompiler/data/load_quandl_sf1.py```
-   5. After the script is done running, you should see a SF1.npy file in ```~.zipline/data/```. If you do, congratulations, you've successfully loaded and parsed the data into a zipline-friendly form, and you can start working with fundamentals data under zipline environment.
+   5. After the script is done running, you should see an SF1.npy file in ```~.zipline/data/```. If you do, congratulations, you've successfully loaded and parsed the data into a zipline-friendly form, and you can start working with fundamentals data under zipline environment.
 
 ## IMPORTANT: **Test if the Fundamentals class is working and how to work with it**
 Let's test if it works by running alphacompiler/examples/pipeline_CAPEX.py.
