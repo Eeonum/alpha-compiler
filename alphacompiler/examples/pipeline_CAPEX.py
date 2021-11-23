@@ -1,4 +1,6 @@
 """
+Modified by Zukang Yang
+
 A simple Pipeline algorithm that longs the top 3 stocks by RSI and shorts
 the bottom 3 each day.
 """

@@ -43,3 +43,32 @@ first ```$pip install --upgrade pip``` and then ```$pip install quandl```
       1. ```mkdir alphacompiler/data/raw```
    4. Finally, you can run ```$python alphacompiler/data/load_quandl_sf1.py```
    5. After the script is done running, you should see a SF1.npy file in ```~.zipline/data/```. If you do, congratulations, you've successfully loaded and parsed the data into a zipline-friendly form, and you can start working with fundamentals data under zipline environment.
+
+## IMPORTANT: **Test if the Fundamentals class is working and how to work with it**
+Let's test if it works by running alphacompiler/examples/pipeline_CAPEX.py.
+* Open alpha-compiler/alphacompiler/data/sf1_fundamentals.py as it is where Fundamentals class is located in. Watch the outputs closely, i.e. ```outputs = ['equity_ART', 'netinc_ART']```.
+  * You need to have an idea of which set of fundamentals you've loaded, either by checking any csv file located at ```alpha-compiler/alphacompiler/data/raw/```, or the fields variable at the bottom of ```alpha-compiler/alphacompiler/data/load_quandl_sf1.py```, i.e.
+  
+  ```fields4 = ['netinc', 'equity', 'bvps', 'sps', 'fcfps', 'price', 'roe', 'roe']```
+  
+  ```dimensions = ['ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ARQ']```
+* Make sure to save the fundamentals you want to use in ```outputs``` and the names of the fundamentals should be consistent with what's shown in the first row of the csv files in the raw folder.
+  * For example, I want to use netinc_ART and equity_ART in my analysis, so my outputs is ```outputs = ['equity_ART', 'netinc_ART']```, and the way I use the data with Fundamentals, is demonstrated in alphacompiler/examples/pipeline_CAPEX.py, i.e. ```fd.equity_ART```.
+* After all the setups in the above, last step is to run in the terminal ```python setup.py install``` like you did at step 4.2 to update the package.
+* If you see an output after running pipeline_CAPEX.py like this:
+```2021-01-04 21:00:00+00:00
+                    longs  shorts       netinc        equity
+Equity(0 [A])       False   False  719000000.0  4.873000e+09
+Equity(2 [AA])      False   False -469000000.0  3.395000e+09
+Equity(15 [AACG])   False   False -122253989.0  3.056352e+08
+Equity(21 [AACQU])  False   False          NaN           NaN
+Equity(22 [AADI])   False   False   -4043797.0  4.731842e+07
+2021-01-05 21:00:00+00:00
+                    longs  shorts       netinc        equity
+Equity(0 [A])       False   False  719000000.0  4.873000e+09
+Equity(2 [AA])      False   False -469000000.0  3.395000e+09
+Equity(15 [AACG])   False   False -122253989.0  3.056352e+08
+Equity(21 [AACQU])  False   False          NaN           NaN
+Equity(22 [AADI])   False   False   -4043797.0  4.731842e+07
+```
+Congratulations, this works boss!
