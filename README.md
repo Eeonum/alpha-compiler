@@ -18,3 +18,10 @@ In order to make the original version of Alpha Compiler work in our local machin
 *Update November 2021 now tested with python 3.7.11 (Python virtual environment) on MacOS Big Sur v11.6, and zipline-trader*
 
 Remark: we believe alpha-compiler is compatible with any python version and any zipline version, as long as you are able to install zipline into your python environment and make it function proper, i.e. data ingestion, run_algorithm, etc.
+
+## **Installation Instruction**
+
+1. Install quandl as it is the main library for alpha-compiler to fetch the fundamentals data from *[Sharadar Core US Equities Bundle](https://data.nasdaq.com/databases/SFA/data)*
+```$pip install quandl```
+
+2. To load and parse the fundamentals data, we have two ways:
