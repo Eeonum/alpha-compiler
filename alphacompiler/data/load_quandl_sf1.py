@@ -1,3 +1,4 @@
+# Modified by Zukang Yang
 
 # Code to load raw data from Quandl/SF1
 # https://www.quandl.com/data/SF1-Core-US-Fundamentals-Data/
@@ -27,7 +28,7 @@ END_DATE = datetime.datetime.today().strftime('%Y-%m-%d')
 ZIPLINE_DATA_DIR = zipline_root() + '/data/'
 FN = "SF1.npy"  # the file name to be used when storing this in ~/.zipline/data
 
-DUMP_FILE = '/Users/peterharrington/Downloads/SHARADAR_SF1_2daa4baaad2a300c166b5c0f7e546bd1.csv'
+DUMP_FILE = '~/.zipline/data-for-alpha-compiler/SHARADAR_SF1_017f04a0d2ef7cc409f920be72167ada.csv'
 
 log = Logger('load_quandl_sf1.py')
 

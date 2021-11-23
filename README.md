@@ -28,6 +28,5 @@ first ```$pip install --upgrade pip``` and then ```$pip install quandl```
     * we can manually download the data, i.e. SHARADAR/SF1 and SHARADAR/TICKERS (which is faster than loading them using quandl API), at [data.nasdaq.com](https://data.nasdaq.com/databases/SFA/usage/export). 
       * after the downloads, move both data files to ```~/.zipline/data-for-alpha-compiler``` (I assume that you have had zipline installed in your machine once which auto created .zipline at the root directory)
         * if you don't have the directory yet, then ```$cd ~/.zipline``` and then ```$mkdir data-for-alpha-compiler```.
-        * 
-    * or, we can download the data using quandl library, which we've installed at step 1. 
+    * or, we can download the data using quandl library, which we've installed at step 1.
       * will explain in later section.
