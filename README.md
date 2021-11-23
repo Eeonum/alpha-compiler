@@ -26,7 +26,20 @@ first ```$pip install --upgrade pip``` and then ```$pip install quandl```
 
 3. To load and parse the fundamentals data, we have two ways:
     * we can manually download the data (assume you've subscribed to the database), i.e. SHARADAR/SF1 (which is faster than loading them using quandl API), at [data.nasdaq.com](https://data.nasdaq.com/databases/SFA/usage/export). 
-      * after the downloads, move both data files to ```~/.zipline/data-for-alpha-compiler``` (I assume that you have had zipline installed in your machine once which auto created .zipline at the root directory)
+      * after the download, move the data (file name is something like this SHARADAR_SF1_017f04a0d2ef7cc409f920be72167ada.csv) to ```~/.zipline/data-for-alpha-compiler``` (I assume that you have had zipline installed in your machine once which auto created .zipline at the root directory)
         * if you don't have the directory yet, then ```$cd ~/.zipline``` and then ```$mkdir data-for-alpha-compiler```.
     * or, we can download the data using quandl library, which we've installed at step 1.
       * will explain in later section.
+
+4. Here comes the tricky steps:
+   1. Before starting loading fundamentals data, you must first have an ingested zipline bundle, as alpha-compiler will try to fetch all the available tickers from the zipline bundle and then fetch fundamentals based off these tickers.
+      * The zipline bundle we use is 'sep', and if you have a different bundle, make sure to change ```BUNDLE_NAME='sep'``` at the bottom of ```alphacompiler/data/load_quandl_sf1.py``` to the name of your bundle. 
+   2. After you've completed the steps above, you can in the terminal, under your project directory, with your python env activated,
+      
+      ```$cd alpha-compiler/```
+      and then 
+      ```$python setup.py install```
+   3. We will create a empty folder to contain the raw fundamentals data files.
+      1. ```mkdir alphacompiler/data/raw```
+   4. Finally, you can run ```$python alphacompiler/data/load_quandl_sf1.py```
+   5. After the script is done running, you should see a SF1.npy file in ```~.zipline/data/```. If you do, congratulations, you've successfully loaded and parsed the data into a zipline-friendly form, and you can start working with fundamentals data under zipline environment.
