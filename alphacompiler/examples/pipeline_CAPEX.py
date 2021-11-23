@@ -12,8 +12,13 @@ from zipline.api import (
     schedule_function,
 )
 from zipline.pipeline import Pipeline
+from zipline import run_algorithm
+import pandas as pd
+from datetime import datetime
+import pytz
 
-from alphacompiler.data.fourth_quartile_fundamentals import Fundamentals
+# from alphacompiler.data.fourth_quartile_fundamentals import Fundamentals
+from alphacompiler.data.sf1_fundamentals import Fundamentals
 from alphacompiler.data.NASDAQ import NASDAQSectorCodes
 from zipline.pipeline.factors import RSI
 
@@ -29,8 +34,8 @@ def make_pipeline():
         columns={
             'longs': rsi.top(3),
             'shorts': rsi.bottom(3),
-            'revenue': fd.Revenue,
-            #'CAPEX': fd.CAPEX_MRQ,
+            'netinc': fd.netinc_ART,
+            'equity': fd.equity_ART,
            # 'sector': sectors,
         },
     )
@@ -77,3 +82,14 @@ def initialize(context):
 def before_trading_start(context, data):
     schedule_function(rebalance, date_rules.every_day())
     context.pipeline_data = pipeline_output('my_pipeline')
+
+
+start = pd.Timestamp(datetime(2021, 1, 1, tzinfo=pytz.UTC))
+end = pd.Timestamp(datetime(2021, 3, 1, tzinfo=pytz.UTC))
+
+r = run_algorithm(start=start,
+                  end=end,
+                  initialize=initialize,
+                  before_trading_start=before_trading_start,
+                  capital_base=10000,
+                  bundle='sep')
