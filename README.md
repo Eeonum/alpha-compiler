@@ -55,6 +55,7 @@ Let's test if it works by running alphacompiler/examples/pipeline_CAPEX.py.
 * Make sure to save the fundamentals you want to use in ```outputs``` and the names of the fundamentals should be consistent with what's shown in the first row of the csv files in the raw folder.
   * For example, I want to use netinc_ART and equity_ART in my analysis, so my outputs is ```outputs = ['equity_ART', 'netinc_ART']```, and the way I use the data with Fundamentals, is demonstrated in alphacompiler/examples/pipeline_CAPEX.py, i.e. ```fd.equity_ART```.
 * After all the setups in the above, last step is to run in the terminal ```python setup.py install``` like you did at step 4.2 to update the package.
+  * You will have to do this every time you modify the ```outputs```.
 * If you see an output after running pipeline_CAPEX.py like this:
 ```2021-01-04 21:00:00+00:00
                     longs  shorts       netinc        equity
@@ -72,3 +73,6 @@ Equity(21 [AACQU])  False   False          NaN           NaN
 Equity(22 [AADI])   False   False   -4043797.0  4.731842e+07
 ```
 Congratulations, this works boss!
+
+### *Tips*
+* If you have multiple zipline projects which employ different set of fundamentals features, make sure to change ```FN = "SF1.npy"``` to not overwrite the existing data at alpha-compiler/alphacompiler/data/load_quandl_sf1.py and ```self.data_path = zipline_root() + '/data/SF1.npy'``` at alpha-compiler/alphacompiler/data/sf1_fundamentals.py. After the changes, you need to again update the package like you did at step 4.2.
