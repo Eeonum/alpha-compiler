@@ -103,7 +103,10 @@ def make_pipeline_engine(bundle, data_dates):
 
     bundle_data = load(bundle, os.environ, None)
 
-    pipeline_loader = USEquityPricingLoader(bundle_data.equity_daily_bar_reader, bundle_data.adjustment_reader)
+    try:
+        pipeline_loader = USEquityPricingLoader(bundle_data.equity_daily_bar_reader, bundle_data.adjustment_reader)
+    except:
+        pipeline_loader = USEquityPricingLoader.without_fx(bundle_data.equity_daily_bar_reader, bundle_data.adjustment_reader)
 
     def choose_loader(column):
         if column in USEquityPricing.columns:
@@ -111,11 +114,11 @@ def make_pipeline_engine(bundle, data_dates):
         raise ValueError("No PipelineLoader registered for column %s." % column)
 
     # set up pipeline
-    cal = bundle_data.equity_daily_bar_reader.trading_calendar.all_sessions
-    cal2 = cal[(cal >= data_dates[0]) & (cal <= data_dates[1])]
+    # cal = bundle_data.equity_daily_bar_reader.trading_calendar.all_sessions
+    # cal2 = cal[(cal >= data_dates[0]) & (cal <= data_dates[1])]
 
     spe = SimplePipelineEngine(get_loader=choose_loader,
-                               calendar=cal2,
+                               # calendar=cal2,
                                asset_finder=bundle_data.asset_finder)
     return spe
 

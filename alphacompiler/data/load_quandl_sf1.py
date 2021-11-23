@@ -20,7 +20,7 @@ import pandas as pd
 import glob
 
 BASE = os.path.dirname(os.path.realpath(__file__))
-DS_NAME = 'SHARADAR/SF1'   # quandl DataSet code
+DS_NAME = 'SHARADAR/SF1'  # quandl DataSet code
 RAW_FLDR = "raw"  # folder to store the raw text file
 START_DATE = '2009-01-01'  # this is only used for getting data from the API
 END_DATE = datetime.datetime.today().strftime('%Y-%m-%d')
@@ -86,7 +86,6 @@ def populate_raw_data_from_dump(tickers2sid, fields, dimensions, raw_path):
 
         # write raw file: raw/
         df_tkr.to_csv(os.path.join(raw_path, "{}.csv".format(sid)))
-
 
 
 def populate_raw_data_from_api(tickers, fields, dimensions, raw_path):
@@ -163,7 +162,7 @@ def populate_raw_data_aqr(tickers, fields, raw_path):
 
 
 def demo():  # demo works on free data
-    tickers = {"WMT":3173, "HD":2912, "DOGGY":69, "CSCO":2809}
+    tickers = {"WMT": 3173, "HD": 2912, "DOGGY": 69, "CSCO": 2809}
     fields = ["GP", "CAPEX", "EBIT", "ASSETS"]
     populate_raw_data_from_api(tickers, fields, os.path.join(BASE, RAW_FLDR))
 
@@ -183,31 +182,17 @@ def num_tkrs_in_bundle(bundle_name):
 
 
 if __name__ == '__main__':
-
-    # fields = ["marketcap", "pb"]  # minimum fundamentals for risk
-    # fields = ["ROE", "BVPS", "SPS", "FCFPS", "PRICE"]
     # fields0 = ['netinc', 'equity', 'bvps', 'sps', 'fcfps', 'price']  # basic QV
     # dimensions0 = ['ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ']
 
-    # magic formula
-    # fields1 = ['ebit', 'workingcapital', 'assets', 'assetsc', 'intangibles', 'ev', 'marketcap']
-    # dimensions1 = ['ART', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ']
-
     # Marc's turntup Quality companies in an uptrend
-    fields2 = ['roe', 'marketcap', 'de', 'debt', 'debtnc']
-    dimensions2 = ['ART', 'ARQ', 'ARQ', 'ARQ', 'ARQ']
-
-    # more value
-    # fields3 = ['ebitda', 'ev', 'pe', 'pe1', 'marketcap']
-    # dimensions3 = ['ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ']
+    # fields2 = ['roe', 'marketcap', 'de', 'debt', 'debtnc']
+    # dimensions2 = ['ART', 'ARQ', 'ARQ', 'ARQ', 'ARQ']
 
     fields4 = ['netinc', 'equity', 'bvps', 'sps', 'fcfps', 'price', 'roe', 'roe']
-    fields = fields4
+    # fields = fields4
     dimensions = ['ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ARQ']
 
-    # fields = ['assetsavg','bvps','capex','cashnequsd','debtusd','dps','ebitdausd','ebitusd','equityavg','equityusd',
-    #            'fcf','fcfps', 'gp', 'intangibles','liabilitiesc','ncfo','netinc','netinccmn','netinccmnusd','price',
-    #            'revenueusd','roa','roe','roic','sharefactor','sps','sharesbas','shareswa']
     # fields = ['assetsavg', 'bvps', 'capex', 'cashnequsd', 'debtusd', 'dps', 'ebitdausd', 'ebitusd', 'equityavg',
     #            'equityusd',
     #            'ev', 'fcf', 'fcfps', 'gp', 'intangibles', 'intexp', 'liabilities', 'liabilitiesc', 'ncfo', 'netinc',
@@ -221,12 +206,11 @@ if __name__ == '__main__':
 
     # Uncomment this next line if you want to load the data using quandl api, and comment all_tickers_for_bundle_from_dump
     # all_tickers_for_bundle_from_api(fields, dimensions, 'sep')
-    all_tickers_for_bundle_from_dump(fields, dimensions, 'sep')  # downloads the data to /raw
-    fields_dimensions = ['{}_{}'.format(i, j) for i, j in zip(fields, dimensions)]
+    all_tickers_for_bundle_from_dump(fields4, dimensions, BUNDLE_NAME)  # downloads the data to /raw
+    fields_dimensions = ['{}_{}'.format(i, j) for i, j in zip(fields4, dimensions)]
     pack_sparse_data(num_tickers + 1,  # number of tickers in buldle + 1
-                    os.path.join(BASE, RAW_FLDR),
-                    fields_dimensions,
-                    ZIPLINE_DATA_DIR + FN)  # write directly to the zipline data dir
-
+                     os.path.join(BASE, RAW_FLDR),
+                     fields_dimensions,
+                     ZIPLINE_DATA_DIR + FN)  # write directly to the zipline data dir
 
     print("this worked boss")
