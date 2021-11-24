@@ -76,3 +76,6 @@ Congratulations, this works boss!
 
 ### *Tips*
 * If you have multiple zipline projects which employ different set of fundamentals features, make sure to change ```FN = "SF1.npy"``` to not overwrite the existing data at alpha-compiler/alphacompiler/data/load_quandl_sf1.py and ```self.data_path = zipline_root() + '/data/SF1.npy'``` at alpha-compiler/alphacompiler/data/sf1_fundamentals.py. After the changes, you need to again update the package like you did at step 4.2.
+
+### Additional References
+[Alpha Compiler Blog](http://alphacompiler.com/blog/6/)
