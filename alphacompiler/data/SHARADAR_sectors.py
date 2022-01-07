@@ -1,14 +1,12 @@
-
 """
 
-Created by Peter Harrington (pbharrin) on 8/5/19.
+Created by Peter Harrington (pbharrin) on 8/5/19 and Modified by Eonum.
 """
 
 from zipline.pipeline.factors import CustomFactor
 from zipline.utils.paths import zipline_root
 
 import numpy as np
-
 
 ZIPLINE_DATA_DIR = zipline_root() + '/data/'
 SID_FILE = "SHARDAR_sectors.npy"
@@ -33,13 +31,14 @@ class SHARADARStatic(CustomFactor):
     This holds static data (does not change with time) like: exchange, sector, etc."""
     inputs = []
     window_length = 1
-    outputs = ['sector', 'exchange', 'category']
+    outputs = ['sector', 'exchange', 'category', 'industry']
 
     def __init__(self, *args, **kwargs):
-        self.data = np.load(ZIPLINE_DATA_DIR + STATIC_FILE)
+        self.data = np.load(ZIPLINE_DATA_DIR + STATIC_FILE, allow_pickle=True)
 
     def compute(self, today, assets, out):
         # out[:] = self.data[assets]
         out['sector'][:] = self.data[0, assets]
         out['exchange'][:] = self.data[1, assets]
         out['category'][:] = self.data[2, assets]
+        out['industry'][:] = self.data[3, assets]

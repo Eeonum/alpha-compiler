@@ -1,39 +1,34 @@
-# Code to load raw data from Quandl/SF1 by sherrytp
+# Code to load raw_ART data from Quandl/SF1 by sherrytp
 # https://www.quandl.com/data/SF1-Core-US-Fundamentals-Data/
 # requires the python Quandl package, and the 
 # Quandl API key to be set as an ENV variable QUANDL_API_KEY.
 
 import quandl
-
 from alphacompiler.util.zipline_data_tools import get_ticker_sid_dict_from_bundle
 from alphacompiler.util.sparse_data import pack_sparse_data
 from alphacompiler.util import quandl_tools
 import alphacompiler.util.load_extensions  # this simply loads the extensions
 from zipline.utils.paths import zipline_root
-
 from logbook import Logger
 import datetime
 import os
-import pandas as pd
 import glob
+import pandas as pd
 
 BASE = os.path.dirname(os.path.realpath(__file__))
 DS_NAME = 'SHARADAR/SF1'  # quandl DataSet code
-RAW_FLDR = "raw"  # folder to store the raw text file
+RAW_FLDR = "raw_ART"  # folder to store the raw_ART text file
 START_DATE = '2009-01-01'  # this is only used for getting data from the API
 END_DATE = datetime.datetime.today().strftime('%Y-%m-%d')
-
 ZIPLINE_DATA_DIR = zipline_root() + '/data/'
-FN = "SF1.npy"  # the file name to be used when storing this in ~/.zipline/data
-
+FN = "SF1_basic_fundamentals_trading_ART.npy"  # the file name to be used when storing this in ~/.zipline/data
 DUMP_FILE = '~/.zipline/data-for-alpha-compiler/SHARADAR_SF1_017f04a0d2ef7cc409f920be72167ada.csv'
-
-log = Logger('load_quandl_sf1.py')
+log = Logger('load_quandl_sf1_ART.py')
 
 
 def clear_raw_folder(raw_folder_path):
-    # removes all the files in the raw folder
-    print('   **   clearing the raw/ folder   **')
+    # removes all the files in the raw_ART folder
+    print('   **   clearing the raw_ART/ folder   **')
     files = glob.glob(raw_folder_path + '/*')
     for f in files:
         os.remove(f)
@@ -41,7 +36,7 @@ def clear_raw_folder(raw_folder_path):
 
 def populate_raw_data_from_dump(tickers2sid, fields, dimensions, raw_path):
     """
-    Populates the raw/ folder based on a single dump download.
+    Populates the raw_ART/ folder based on a single dump download.
 
     :param tickers2sid: a dict with the ticker string as the key and the SID
     as the value
@@ -82,7 +77,7 @@ def populate_raw_data_from_dump(tickers2sid, fields, dimensions, raw_path):
         print("AFTER reorganizing")
         print(df_tkr)
 
-        # write raw file: raw/
+        # write raw_ART file: raw_ART/
         df_tkr.to_csv(os.path.join(raw_path, "{}.csv".format(sid)))
 
 
@@ -119,7 +114,7 @@ def populate_raw_data_from_api(tickers, fields, dimensions, raw_path):
             df = pd.concat(series, axis=1)
             print(df)
 
-            # write raw file: raw/
+            # write raw_ART file: raw_ART/
             df.to_csv(os.path.join(raw_path, "{}.csv".format(sid)))
         except quandl.errors.quandl_error.NotFoundError:
             print("error with ticker: {}".format(ticker))
@@ -153,7 +148,7 @@ def populate_raw_data_aqr(tickers, fields, raw_path):
             df = df.rename(columns={"datekey": "Date"})
             df = df.drop(["dimension"], axis=1)
 
-            # write raw file: raw/
+            # write raw_ART file: raw_ART/
             df.to_csv(os.path.join(raw_path, "{}.csv".format(sid)))
         except quandl.errors.quandl_error.NotFoundError:
             print("error with ticker: {}".format(ticker))
@@ -180,32 +175,30 @@ def num_tkrs_in_bundle(bundle_name):
 
 
 if __name__ == '__main__':
-    # fields0 = ['netinc', 'equity', 'bvps', 'sps', 'fcfps', 'price']  # basic QV
-    # dimensions0 = ['ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ']
-
-    # Marc's turntup Quality companies in an uptrend
-    # fields2 = ['roe', 'marketcap', 'de', 'debt', 'debtnc']
-    # dimensions2 = ['ART', 'ARQ', 'ARQ', 'ARQ', 'ARQ']
-
-    fields4 = ['netinc', 'equity', 'bvps', 'sps', 'fcfps', 'price', 'roe', 'roe']
-    # fields = fields4
-    dimensions = ['ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ARQ']
-
-    # fields = ['assetsavg', 'bvps', 'capex', 'cashnequsd', 'debtusd', 'dps', 'ebitdausd', 'ebitusd', 'equityavg',
-    #            'equityusd',
-    #            'ev', 'fcf', 'fcfps', 'gp', 'intangibles', 'intexp', 'liabilities', 'liabilitiesc', 'ncfo', 'netinc',
-    #            'netinccmn', 'netinccmnusd', 'price', 'revenueusd', 'roa', 'roe', 'roic', 'sharefactor', 'sps',
-    #            'sharesbas', 'shareswa']
     # dimensions = ['ART'] * len(fields)  # use all ART
+
+    fields = ['reportperiod', 'marketcap', 'evebit', 'roa', 'assets', 'de',
+              'currentratio', 'shareswa', 'grossmargin', 'assetturnover',  # QuantRocket
+              'netmargin',  # Warren Buffet: profit margin
+              'epsdil',  # Steven
+              'ps1',
+              'divyield',
+              'fcf',  # free cash flow
+              'fcfps',
+              'ncfo',  # Operating cash flow
+              'pb',  # price to book value
+              'ev',  # enterprise value
+              'ebitda'
+              ]
+    dimensions = ['ART'] * len(fields)
 
     BUNDLE_NAME = 'sep'
     num_tickers = num_tkrs_in_bundle(BUNDLE_NAME)
     print('number of tickers: ', num_tickers)
 
     # Uncomment this next line if you want to load the data using quandl api, and comment all_tickers_for_bundle_from_dump
-    # all_tickers_for_bundle_from_api(fields, dimensions, 'sep')
-    all_tickers_for_bundle_from_dump(fields4, dimensions, BUNDLE_NAME)  # downloads the data to /raw
-    fields_dimensions = ['{}_{}'.format(i, j) for i, j in zip(fields4, dimensions)]
+    # all_tickers_for_bundle_from_api(fields, dimensions, 'sep')   all_tickers_for_bundle_from_dump(fields, dimensions, BUNDLE_NAME)  # downloads the data to /raw_ART
+    fields_dimensions = ['{}_{}'.format(i, j) for i, j in zip(fields, dimensions)]
     pack_sparse_data(num_tickers + 1,  # number of tickers in bundle + 1
                      os.path.join(BASE, RAW_FLDR),
                      fields_dimensions,

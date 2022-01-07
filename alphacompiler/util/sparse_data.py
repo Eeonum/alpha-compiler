@@ -1,7 +1,7 @@
 
 
 """
-Created by Peter Harrington (pbharrin) on 10/10/17.
+Created by Peter Harrington (pbharrin) on 10/10/17 and Modified by sherrytp at Eonum.
 
 This file contains a CustomFactor that can be used in
 Zipline's Pipeline.  This factor supplies data that changes infrequently, and perhaps in
@@ -114,6 +114,9 @@ def pack_sparse_data(N, rawpath, fields, filename):
             continue
         df = pd.read_csv(os.path.join(rawpath,fn), index_col="Date", parse_dates=True)
         df = df.sort_index()
+        for field in fields:
+            if 'reportperiod' in field:
+                df[field] = df[field].apply(lambda x: float(''.join(x.split('-'))))
         sid = int(fn.split('.')[0])
         print("packing sid: %d" % sid)
         dfs[sid] = df
@@ -148,8 +151,8 @@ def pack_sparse_data(N, rawpath, fields, filename):
 
 
 def clear_raw_folder(raw_folder_path):
-    # removes all the files in the raw folder
-    print('   **   clearing the raw/ folder   **')
+    # removes all the files in the raw_ART folder
+    print('   **   clearing the raw_ART/ folder   **')
     files = glob.glob(raw_folder_path + '/*')
     for f in files:
         os.remove(f)
