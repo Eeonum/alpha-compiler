@@ -15,7 +15,7 @@ You can find details on Alpha Compiler [here](https://pbharrin.github.io/alpha-c
 
 In order to make the original version of Alpha Compiler work in our local machine, we need to perform a series of complex steps. While we believe there are better ways out there, we still attempt to do some slight modifications on Alpha Compiler to ease the pain of redirecting multiple input data paths, to fix minor bugs so that the Fundamentals class will work as intended, as well as to provide proper documentation so new users won't have to go through the confusions we had gone through. 
 
-*Update March 2022 now tested with python 3.8.12 (PyEnv) on MacOS Monterey v 12.3 as well as Python 3.8 (Anaconda) with (zipline-reload)[https://github.com/stefan-jansen/zipline-reloaded].
+*Update March 2022 now tested with python 3.8.12 (PyEnv) on MacOS Monterey v 12.3 as well as Python 3.8 (Anaconda) with [zipline-reload](https://github.com/stefan-jansen/zipline-reloaded).*
 
 *Update November 2021 now tested with python 3.7.11 (Python virtual environment) on MacOS Big Sur v11.6, and zipline-trader*
 
@@ -75,6 +75,10 @@ Equity(21 [AACQU])  False   False          NaN           NaN
 Equity(22 [AADI])   False   False   -4043797.0  4.731842e+07
 ```
 Congratulations, this works boss!
+
+### Bug Fix:
+
+1. For the zipline-reload version of zipline, AssetFinder is not able to fetch ticker information; the fix is to replace .env/lib/python/site-packages/zipline/assets/assets.py with zipline_mod/assets.py.
 
 ### *Tips*
 * If you have multiple zipline projects which employ different set of fundamentals features, make sure to change ```FN = "SF1.npy"``` to not overwrite the existing data at alpha-compiler/alphacompiler/data/load_quandl_sf1.py and ```self.data_path = zipline_root() + '/data/SF1.npy'``` at alpha-compiler/alphacompiler/data/sf1_fundamentals.py. After the changes, you need to again update the package like you did at step 4.2.
