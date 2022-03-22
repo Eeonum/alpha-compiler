@@ -15,6 +15,8 @@ You can find details on Alpha Compiler [here](https://pbharrin.github.io/alpha-c
 
 In order to make the original version of Alpha Compiler work in our local machine, we need to perform a series of complex steps. While we believe there are better ways out there, we still attempt to do some slight modifications on Alpha Compiler to ease the pain of redirecting multiple input data paths, to fix minor bugs so that the Fundamentals class will work as intended, as well as to provide proper documentation so new users won't have to go through the confusions we had gone through. 
 
+*Update March 2022 now tested with python 3.8.12 (PyEnv) on MacOS Monterey v 12.3 as well as Python 3.8 (Anaconda) with (zipline-reload)[https://github.com/stefan-jansen/zipline-reloaded].
+
 *Update November 2021 now tested with python 3.7.11 (Python virtual environment) on MacOS Big Sur v11.6, and zipline-trader*
 
 Remark: we believe alpha-compiler is compatible with any python version and any zipline version, as long as you are able to install zipline into your python environment and make it function proper, i.e. data ingestion, run_algorithm, etc.
